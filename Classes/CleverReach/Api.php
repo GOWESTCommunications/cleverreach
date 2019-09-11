@@ -103,15 +103,38 @@ class Api
             $aReceivers[] = (new Receiver($receivers))->toArray();
         }
 
-        try {
-            $return = $this->rest->post('/groups.json/' . $groupId . '/receivers/insert',
-                $aReceivers
-            );
-            if (\is_object($return) && $return->status === 'insert success') {
-                return true;
+        
+        foreach ($aReceivers as $key => $receiver) {
+            if ($this->configurationService->getSubscribeMethod() == 'update') {
+                $apiReceiver = $this->getReceiverOfGroup($receiver['email'], $groupId);
+                
+                if($apiReceiver) {
+                    try {
+                        $return = $this->rest->post('/groups.json/' . $groupId . '/receivers/' . $receiver['email'],
+                            $receiver,
+                            'put'
+                        );
+                        if (\is_object($return) && $return->id) {
+                            unset($aReceivers[$key]);
+                        }
+                    } catch (\Exception $ex) {
+                        $this->log($ex);
+                    }
+                }
             }
-        } catch (\Exception $ex) {
-            $this->log($ex);
+        }
+        
+        if(is_array($aReceivers) && count($aReceivers) > 0) {
+            try {
+                $return = $this->rest->post('/groups.json/' . $groupId . '/receivers/insert',
+                    $aReceivers
+                );
+                if (\is_object($return) && $return->status === 'insert success') {
+                    return TRUE;
+                }
+            } catch (\Exception $ex) {
+                $this->log($ex);
+            }
         }
 
 
