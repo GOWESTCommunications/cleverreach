@@ -54,7 +54,7 @@ class OptinValidator extends AbstractValidator
             return;
         }
 
-        if ($this->api->isReceiverOfGroupAndActive($value,$groupId)) {
+        if ($this->api->isReceiverOfGroupAndActive($value,$groupId) && $configuration['subscribemethod'] != 'update') {
             $this->addError(
                 $this->translateErrorMessage(
                     'validator.alreadyInList',
