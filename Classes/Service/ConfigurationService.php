@@ -86,6 +86,14 @@ class ConfigurationService {
         $config = $this->getConfiguration();
         return (int)$config['formId'];
     }
+    
+    /**
+     * @return string
+     */
+    public function getSubscribeMethod() {
+        $config = $this->getConfiguration();
+        return $config['subscribemethod'];
+    }
 
     /**
      * @return string
