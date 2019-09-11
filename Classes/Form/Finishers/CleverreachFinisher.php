@@ -76,10 +76,10 @@ class CleverreachFinisher extends AbstractFinisher
                     if ($properties['cleverreachField'] === 'email') {
                         $email = $value;
                     } else {
-                        if(API::ATTRIBUTES_GLOBAL === strtolower($properties['cleverreachAttributeLocalization'] ?? '')) {
-                            $globalAttributes[$properties['cleverreachField']] = $value;
-                        } else {
+                        if(API::ATTRIBUTES_LOCAL === strtolower($properties['cleverreachAttributeLocalization'] ?? '')) {
                             $attributes[$properties['cleverreachField']] = $value;
+                        } else {
+                            $globalAttributes[$properties['cleverreachField']] = $value;
                         }
                     }
                 }

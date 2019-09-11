@@ -39,7 +39,7 @@ class Api
 
     const MODE_OPTOUT = 'optout';
     
-    const ATTRIBUTES_GLOBAL = 'global';
+    const ATTRIBUTES_LOCAL = 'local';
 
 
     public function __construct()
@@ -111,6 +111,9 @@ class Api
                 $apiReceiver = $this->getReceiverOfGroup($receiver['email'], $groupId);
                 
                 if($apiReceiver) {
+                    $receiver['activated'] = $apiReceiver->getActivated();
+                    $receiver['deactivated'] = $apiReceiver->getDeactivated();
+                    
                     try {
                         $return = $this->rest->post('/groups.json/' . $groupId . '/receivers/' . $receiver['email'],
                             $receiver,

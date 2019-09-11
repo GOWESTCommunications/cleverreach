@@ -31,7 +31,6 @@ renderables:
             placeholder: Name
             required: required
           cleverreachField: name
-          cleverreachAttributeLocalization: global
         validators:
           -
             identifier: NotEmpty
